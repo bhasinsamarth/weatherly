@@ -1,12 +1,21 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from "react-native";
+import ButtonTemp from "../components/buttonTemp";
 
-const App = () => {
+
+export default function App() {
     return (
-        <View>
-            <Text>Hello, World!</Text>
+        <View style={styles.container}>
+            <Text style={{ fontSize: 30 }}>Weatherly</Text>
+            <ButtonTemp link={"/signIn"} text={"Sign In"} color="blue" />
         </View>
     );
-};
+}
 
-export default App;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+});
