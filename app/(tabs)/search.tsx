@@ -35,6 +35,8 @@ export default function App() {
     const [windSpeed, setWindSpeed] = useState("")
     const [visibility, setVisibility] = useState("")
 
+    const [displayResult, setDisplayResult] = useState(false);
+
     interface ForecastDay {
         date: string;
         day: {
@@ -48,7 +50,6 @@ export default function App() {
     const handleSuggestions = (loc: any) => {
         setLocations([]);
         fetchWeatherForecast({ cityName: loc.name }).then((data) => {
-            console.log(data);
             setWeather(data)
             setCityName(data.location.name)
             setTemp(data.current.temp_c)
@@ -59,18 +60,16 @@ export default function App() {
             setWindSpeed(data.current.wind_kph)
             setVisibility(data.current.vis_km)
             setForecast(data.forecast.forecastday.slice(1));
+            setDisplayResult(true)
         });
     }
     const HandleSearch = () => {
-        if (searchCityName.length > 3) {
+        if (searchCityName.length >= 2) {
             fetchLocations({ cityName: searchCityName }).then((data) => {
-                console.log(data);
                 setLocations(data);
             });
         }
     };
-
-
     return (
 
         <View style={styles.wrapper}>
@@ -114,87 +113,80 @@ export default function App() {
                         </View>
                     ) : null
                 }
-
-                {/* weather details go here */}
-                <SafeAreaView>
-                    <View style={tw`flex flex-row items-center`}>
-                        <View>
-                            {/* the city name here */}
-                            <Text style={tw`text-white mx-4 text-[30px] font-bold mt-10`}>{cityName}</Text>
-                            {/* the temp here should not be in decimals change that */}
-                            <Text style={tw`text-white mx-4 text-[30px] `}>{Math.round(Number(Temp))}&#176;</Text>
-                            {/* condition */}
-                            <Text style={tw`text-white mx-4 mt-2 text-[18px] font-bold`}>{weatherCondition}</Text>
+                {displayResult && (
+                    <SafeAreaView>
+                        <View style={tw`flex flex-row items-center`}>
+                            <View>
+                                <Text style={tw`text-white mx-4 text-[30px] font-bold mt-10`}>{cityName}</Text>
+                                <Text style={tw`text-white mx-4 text-[30px] `}>{Math.round(Number(Temp))}&#176;</Text>
+                                <Text style={tw`text-white mx-4 mt-2 text-[18px] font-bold`}>{weatherCondition}</Text>
+                            </View>
+                            <View>
+                                <Image source={weatherImages[weatherCondition as keyof typeof weatherImages]} style={tw`w-32 h-32 mt-12 mx-10`} />
+                            </View>
                         </View>
-                        <View>
-                            <Image source={weatherImages[weatherCondition as keyof typeof weatherImages]} style={tw`w-32 h-32 mt-12 mx-10`} />
-                        </View>
-                    </View>
-                    {/* forecast details */}
-                    <View style={tw`gap-1 mb-2`}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15, marginTop: 15, gap: 2 }}>
-                            <Ionicons name="calendar" size={24} color="#fff" style={tw`mx-4 mt-5`} />
-                            <Text style={tw`text-white mt-5 text-[18px]`}>Daily forecast</Text>
-                        </View>
-                        {/* */}
-                        <ScrollView
-                            horizontal
-                            contentContainerStyle={{ paddingHorizontal: 10 }}
-                            showsHorizontalScrollIndicator={false}>
-                            {
-                                forecast.map((day, index) => (
-                                    <View key={index} style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}>
-                                        <View style={tw`flex justify-center items-center rounded-3xl p-3 mx-2 gap-2`}>
-                                            <Image source={weatherImages[weatherCondition as keyof typeof weatherImages]} style={tw`w-16 h-16`} />
-                                            <Text style={tw`text-white text-[15px] font-semibold`}>{day.date}</Text>
-                                            <Text style={tw`text-white text-[15px] font-normal`}>{day.day.avgtemp_c}&#176;</Text>
+                        {/* forecast details */}
+                        <View style={tw`gap-1 mb-2`}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15, marginTop: 15, gap: 2 }}>
+                                <Ionicons name="calendar" size={24} color="#fff" style={tw`mx-4 mt-5`} />
+                                <Text style={tw`text-white mt-5 text-[18px]`}>Daily forecast</Text>
+                            </View>
+                            <ScrollView
+                                horizontal
+                                contentContainerStyle={{ paddingHorizontal: 10 }}
+                                showsHorizontalScrollIndicator={false}>
+                                {
+                                    forecast.map((day, index) => (
+                                        <View key={index} style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}>
+                                            <View style={tw`flex justify-center items-center rounded-3xl p-3 mx-2 gap-2`}>
+                                                <Image source={weatherImages[weatherCondition as keyof typeof weatherImages]} style={tw`w-16 h-16`} />
+                                                <Text style={tw`text-white text-[15px] font-semibold`}>{day.date}</Text>
+                                                <Text style={tw`text-white text-[15px] font-normal`}>{day.day.avgtemp_c}&#176;</Text>
+                                            </View>
                                         </View>
-                                    </View>
-                                ))
-                            }
+                                    ))
+                                }
 
-                        </ScrollView>
+                            </ScrollView>
 
-                        {/* Feels like details */}
-                        <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
-                            <View style={tw`flex-row`}>
-                                <Ionicons name="thermometer" size={24} color="#fff" />
-                                <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Feels like:</Text>
+                            {/* Feels like details */}
+                            <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
+                                <View style={tw`flex-row`}>
+                                    <Ionicons name="thermometer" size={24} color="#fff" />
+                                    <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Feels like:</Text>
+                                </View>
+                                <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{feelslike}&#176;</Text>
                             </View>
-                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{feelslike}&#176;</Text>
-                        </View>
-                        {/* Humidity details */}
-                        <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
-                            <View style={tw`flex-row`}>
-                                <Ionicons name="water" size={24} color="#fff" />
-                                <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Humidity:</Text>
+                            {/* Humidity details */}
+                            <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
+                                <View style={tw`flex-row`}>
+                                    <Ionicons name="water" size={24} color="#fff" />
+                                    <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Humidity:</Text>
+                                </View>
+                                <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{Humidity}%</Text>
                             </View>
-                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{Humidity}%</Text>
-                        </View>
-                        {/* Wind speed details */}
-                        <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
-                            <View style={tw`flex-row`}>
-                                <Ionicons name="swap-horizontal" size={24} color="#fff" />
-                                <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Wind speed:</Text>
+                            {/* Wind speed details */}
+                            <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
+                                <View style={tw`flex-row`}>
+                                    <Ionicons name="swap-horizontal" size={24} color="#fff" />
+                                    <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Wind speed:</Text>
+                                </View>
+                                <Text style={tw`text-white text-[15px] font-semibold mt-1 `}>{windSpeed}kmp</Text>
                             </View>
-                            <Text style={tw`text-white text-[15px] font-semibold mt-1 `}>{Humidity}kmp</Text>
-                        </View>
-                        {/* visibility details */}
-                        <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
-                            <View style={tw`flex-row`}>
-                                <Ionicons name="eye" size={24} color="#fff" />
-                                <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Visibility:</Text>
+                            {/* visibility details */}
+                            <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
+                                <View style={tw`flex-row`}>
+                                    <Ionicons name="eye" size={24} color="#fff" />
+                                    <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Visibility:</Text>
+                                </View>
+                                <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{visibility}km</Text>
                             </View>
-                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{visibility}km</Text>
-                        </View>
 
-                    </View>
-                </SafeAreaView>
+                        </View>
+                    </SafeAreaView>
+                )}
             </ImageBackground>
         </View>
-
-
-
     );
 }
 
