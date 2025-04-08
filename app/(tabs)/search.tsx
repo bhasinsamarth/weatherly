@@ -143,9 +143,9 @@ export default function App() {
                             showsHorizontalScrollIndicator={false}>
                             {
                                 forecast.map((day, index) => (
-                                    <View style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}>
+                                    <View key={index} style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}>
                                         <View style={tw`flex justify-center items-center rounded-3xl p-3 mx-2 gap-2`}>
-                                            <Image source={weatherImages[weatherCondition as keyof typeof weatherImages]} style={tw`w-16 h-16`}/>
+                                            <Image source={weatherImages[weatherCondition as keyof typeof weatherImages]} style={tw`w-16 h-16`} />
                                             <Text style={tw`text-white text-[15px] font-semibold`}>{day.date}</Text>
                                             <Text style={tw`text-white text-[15px] font-normal`}>{day.day.avgtemp_c}&#176;</Text>
                                         </View>
