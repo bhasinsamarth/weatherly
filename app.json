@@ -26,8 +26,15 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      ["expo-router"],
-      ["expo-location"]
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUseUsageDescription": "This app uses your location to show the weather in your area.",
+          "locationWhenInUseUsageDescription": "This app uses your location to show the weather in your area."
+        }
+      ],
+      ["expo-router"]
     ] 
   }
 }
+
