@@ -5,8 +5,10 @@ import BgImage from '../../assets/bg.jpg';
 import tw from 'twrnc';
 import { Ionicons } from '@expo/vector-icons';
 import { fetchWeatherForecast } from '../api/apicall'; // Adjust the import path as needed
+import { usename } from '../mediator';
 
 const Home = () => {
+    const { username } = usename(); 
     const [weather, setWeather] = useState({
         cityName: "",
         temp: "",
@@ -25,6 +27,7 @@ const Home = () => {
     }
 
     const [forecast, setForecast] = useState<ForecastDay[]>([]);
+
 
     useEffect(() => {
         const getWeatherForCurrentLocation = async () => {
@@ -98,7 +101,7 @@ const Home = () => {
         <View style={{ flex: 1 }}>
             <ImageBackground source={BgImage} style={{ width: '100%', height: '100%' }} resizeMode="cover">
                 <SafeAreaView style={{ flex: 1 }}>
-                    <Text style={tw`text-white mx-4 text-[25px] font-semibold`}>Morning Noor!!</Text>
+                    <Text style={tw`text-white mx-4 text-[25px] font-semibold`}>Morning {username}!!</Text>
                     <Text style={tw`text-white mx-4 text-[35px] font-bold mt-10`}>{weather.cityName}</Text>
                     <Text style={tw`text-white mx-4 text-[30px] `}>{weather.temp}</Text>
                     <Text style={tw`text-white mx-4 mt-2 text-[18px] font-bold`}>{weather.description}</Text>
