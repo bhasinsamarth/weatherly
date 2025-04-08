@@ -1,14 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import CityCard from './cityCard'
 
-const favourites = () => {
+const index = () => {
   return (
-    <View>
-      <Text>favourites</Text>
-    </View>
+    <div></div>
   )
 }
 
-export default favourites
+export default index
 
 const styles = StyleSheet.create({})

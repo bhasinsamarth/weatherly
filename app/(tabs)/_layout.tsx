@@ -54,13 +54,6 @@ const _layout = () => {
                     <TabIcon name='search' icon={"search"} focused={focused} />
                 )
             }} />
-            <Tabs.Screen name="favourites"  options={{
-                title: "",
-                headerShown: false,
-                tabBarIcon: ({ color, focused }) => (
-                    <TabIcon name='favourites' icon={"heart"} focused={focused} />
-                )
-            }}/>
             <Tabs.Screen name="settings"  options={{
                 title: "",
                 headerShown: false,

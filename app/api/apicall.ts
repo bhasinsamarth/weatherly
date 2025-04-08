@@ -1,17 +1,34 @@
-const fetchCityWeather = async (city: string) => {
+const APIKey = "61510d21795941a0b8813836250804";
+
+interface ForecastParams {
+	cityName: string;
+}
+
+const getForecast = (params: ForecastParams) => `https://api.weatherapi.com/v1/forecast.json?key=61510d21795941a0b8813836250804&q=${params.cityName}&days=7&aqi=no&alerts=no`
+const getLocationSuggestions = (params: ForecastParams) => `https://api.weatherapi.com/v1/search.json?key=61510d21795941a0b8813836250804&q=${params.cityName}`
+
+const apiCall = async (endpoint: any) => {
+    const options = {
+        method: "GET",
+        url: endpoint,
+    };
     try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=d536e02dde78666729b749c2c6b80526`);
+        const response = await fetch(endpoint);
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
-        
-        return data;
-    }
-    catch (error) {
-        console.error('Error fetching weather data:', error);
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching data:", error);
         throw error;
     }
-        };
-    
-    export default fetchCityWeather;
+}
+
+export const fetchWeatherForecast = (params: ForecastParams) =>{
+    let forecastUrl = getForecast(params);
+    return apiCall(forecastUrl);
+}
+export const fetchLocations = (params: ForecastParams) =>{
+    let locUrl = getLocationSuggestions(params);
+    return apiCall(locUrl);
+}
