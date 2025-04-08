@@ -11,13 +11,15 @@ import {
     SafeAreaView,
     Image
 } from "react-native";
-import { useState } from "react";
+import React, { Component } from "react";
+import {  useState } from "react";
 import { fetchLocations, fetchWeatherForecast } from "../../app/api/apicall";
 import bgImage from "../../assets/bg.jpg";
 import { Ionicons } from '@expo/vector-icons'
 import tw from "twrnc";
 import { router } from "expo-router";
 import { weatherImages } from "../../constants";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function App() {
     const [searchCityName, setSearchCityName] = useState("");
@@ -71,8 +73,7 @@ export default function App() {
         }
     };
     return (
-
-        <View style={styles.wrapper}>
+    <LinearGradient colors={['#65a8dd', '#82d3e6']} style={styles.wrapper}>
             <ImageBackground source={bgImage} style={{ width: '100%', height: '100%' }} resizeMode="cover">
                 <View style={styles.searchContainer}>
                     <TextInput
@@ -87,7 +88,7 @@ export default function App() {
                     />
                     <TouchableOpacity
                         onPress={HandleSearch}
-                        style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}
+                        style={{ backgroundColor: 'black', opacity: 0.8, borderRadius: 20, padding: 10, marginLeft: 10 }}
                     >
                         <Ionicons name="search" color={"white"} size={32} />
                     </TouchableOpacity>
@@ -186,13 +187,12 @@ export default function App() {
                     </SafeAreaView>
                 )}
             </ImageBackground>
-        </View>
+        </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: "#f2f2f2",
         justifyContent: "center",
         alignItems: "center",
         margin: 0,
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: 'center',
-        marginTop: 80,
+        marginTop: 40,
         borderRadius: 16,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },

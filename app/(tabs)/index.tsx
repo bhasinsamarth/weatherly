@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { fetchWeatherForecast } from '../api/apicall';
 import { usename } from '../mediator';
 import { weatherImages } from '../../constants';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Home = () => {
     const { username } = usename();
@@ -70,7 +71,7 @@ const Home = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <ImageBackground source={BgImage} style={{ width: '100%', height: '100%' }} resizeMode="cover">
+            <LinearGradient colors={['#65a8dd', '#82d3e6']} style={{ flex: 1 }}>
                 <SafeAreaView style={{ flex: 1 }}>
                     <Text style={tw`text-white mx-4 text-[25px] font-semibold`}>Morning {username}!!</Text>
 
@@ -144,7 +145,7 @@ const Home = () => {
                     </View>
 
                 </SafeAreaView>
-            </ImageBackground>
+            </LinearGradient>
         </View>
     );
 };
