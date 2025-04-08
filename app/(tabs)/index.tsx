@@ -4,7 +4,7 @@ import * as Location from 'expo-location';
 import BgImage from '../../assets/bg.jpg';
 import tw from 'twrnc';
 import { Ionicons } from '@expo/vector-icons';
-import { fetchWeatherForecast } from '../api/apicall'; // Adjust the import path as needed
+import { fetchWeatherForecast } from '../api/apicall';
 
 const Home = () => {
     const [weather, setWeather] = useState({
@@ -51,7 +51,7 @@ const Home = () => {
                         description: fullForecast.current.condition.text,
                         visibility: fullForecast.current.vis_km + ' km'
                     });
-                    setForecast(fullForecast.forecast.forecastday.slice(2)); // Assuming the API includes today in the forecast
+                    setForecast(fullForecast.forecast.forecastday.slice(2)); 
                 } else {
                     Alert.alert("Could not fetch city from location");
                 }
@@ -64,35 +64,6 @@ const Home = () => {
         getWeatherForCurrentLocation();
     }, []);
 
-    // Styles definition
-    const styles = StyleSheet.create({
-        forecastContainer: {
-            marginTop: 20,
-            paddingHorizontal: 10,
-        },
-        forecastDay: {
-            width: 110,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            borderRadius: 10,
-            padding: 10,
-            marginHorizontal: 5,
-        },
-        day: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: '#fff',
-        },
-        date: {
-            fontSize: 14,
-            color: '#ddd',
-        },
-        temp: {
-            fontSize: 14,
-            color: '#fff',
-        }
-    });
 
     return (
         <View style={{ flex: 1 }}>
@@ -127,3 +98,33 @@ const Home = () => {
 };
 
 export default Home;
+
+
+const styles = StyleSheet.create({
+    forecastContainer: {
+        marginTop: 20,
+        paddingHorizontal: 10,
+    },
+    forecastDay: {
+        width: 110,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderRadius: 10,
+        padding: 10,
+        marginHorizontal: 5,
+    },
+    day: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
+    date: {
+        fontSize: 14,
+        color: '#ddd',
+    },
+    temp: {
+        fontSize: 14,
+        color: '#fff',
+    }
+});

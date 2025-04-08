@@ -25,11 +25,16 @@ export default function App() {
     const [toggleSearch, setToggleSearch] = useState(false);
     const [locations, setLocations] = useState<{ name: string; country: string }[]>([]);
 
-
+    const [weather, setWeather] = useState({})
     const [Temp, setTemp] = useState("");
     const [cityName, setCityName] = useState("");
     const [weatherCondition, setWeatherCondition] = useState("");
     const [imageLink, setImageLink] = useState("");
+    const [feelslike, setFeelsLike] = useState("");
+    const [Humidity, setHumidity] = useState("");
+    const [windSpeed, setWindSpeed] = useState("")
+    const [visibility, setVisibility] = useState("")
+    const [forecastData, setForecastData] = useState([{}])
     // sample data got from the api call. have to assign the variables names according to this
     // {"current": {"cloud": 0, "condition": {"code": 1000, "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png", "text": "Clear"}, "dewpoint_c": 2.3, "dewpoint_f": 36.1, "feelslike_c": 1.3, "feelslike_f": 34.3, "gust_kph": 11.6, "gust_mph": 7.2, "heatindex_c": 4.9, "heatindex_f": 40.8, "humidity": 87, "is_day": 0, "last_updated": "2025-04-08 04:00", "last_updated_epoch": 1744081200, "precip_in": 0, "precip_mm": 0, "pressure_in": 30.33, "pressure_mb": 1027, "temp_c": 3.1, "temp_f": 37.6, "uv": 0, "vis_km": 10, "vis_miles": 6, "wind_degree": 43, "wind_dir": "NE", "wind_kph": 6.8, "wind_mph": 4.3, "windchill_c": 3.3, "windchill_f": 38}, "forecast": {"forecastday": [[Object], [Object], [Object], [Object], [Object], [Object], [Object]]}, "location": {"country": "United Kingdom", "lat": 51.5171, "localtime": "2025-04-08 04:02", "localtime_epoch": 1744081336, "lon": -0.1062, "name": "London", "region": "City of London, Greater London", "tz_id": "Europe/London"}}  
 
@@ -37,12 +42,16 @@ export default function App() {
         setLocations([]);
         fetchWeatherForecast({ cityName: loc.name }).then((data) => {
             console.log(data);
+            setWeather(data)
             setCityName(data.location.name)
             setTemp(data.current.temp_c)
             setWeatherCondition(data.current.condition.text)
             setImageLink(data.current.condition.icon || "");
-            const log = 'https:' + imageLink;
-            console.log(log)
+            setFeelsLike(data.current.feelslike_c)
+            setHumidity(data.current.humidity)
+            setWindSpeed(data.current.wind_kph)
+            setVisibility(data.current.vis_km)
+            setForecastData(data.forecast.forecastday)
         });
     }
     const HandleSearch = () => {
@@ -104,7 +113,7 @@ export default function App() {
                     <View style={tw`flex flex-row items-center`}>
                         <View>
                             {/* the city name here */}
-                            <Text style={tw`text-white mx-4 text-[35px] font-bold mt-10`}>{cityName}</Text>
+                            <Text style={tw`text-white mx-4 text-[30px] font-bold mt-10`}>{cityName}</Text>
                             {/* the temp here should not be in decimals change that */}
                             <Text style={tw`text-white mx-4 text-[30px] `}>{Math.round(Number(Temp))}&#176;</Text>
                             {/* condition */}
@@ -124,6 +133,9 @@ export default function App() {
                             horizontal
                             contentContainerStyle={{ paddingHorizontal: 10 }}
                             showsHorizontalScrollIndicator={false}>
+                                {
+                                    weather?.forecast?.forecastday?.map()
+                                }
                             <View style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}>
                                 <View style={tw`flex justify-center items-center rounded-3xl p-3 mx-2 gap-2`}>
                                     <Ionicons name="sunny" size={24} color="#fff" />
@@ -140,7 +152,7 @@ export default function App() {
                                 <Ionicons name="thermometer" size={24} color="#fff" />
                                 <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Feels like:</Text>
                             </View>
-                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>20&#176;</Text>
+                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{feelslike}&#176;</Text>
                         </View>
                         {/* Humidity details */}
                         <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
@@ -148,7 +160,7 @@ export default function App() {
                                 <Ionicons name="water" size={24} color="#fff" />
                                 <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Humidity:</Text>
                             </View>
-                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>45%</Text>
+                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{Humidity}%</Text>
                         </View>
                         {/* Wind speed details */}
                         <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
@@ -156,7 +168,7 @@ export default function App() {
                                 <Ionicons name="swap-horizontal" size={24} color="#fff" />
                                 <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Wind speed:</Text>
                             </View>
-                            <Text style={tw`text-white text-[15px] font-semibold mt-1 `}>3kmp</Text>
+                            <Text style={tw`text-white text-[15px] font-semibold mt-1 `}>{Humidity}kmp</Text>
                         </View>
                         {/* visibility details */}
                         <View style={tw`flex-row items-center mx-3 gap-2 mt-5`}>
@@ -164,7 +176,7 @@ export default function App() {
                                 <Ionicons name="eye" size={24} color="#fff" />
                                 <Text style={tw`text-white text-[15px] font-normal mt-1 mx-1`}>Visibility:</Text>
                             </View>
-                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>8km</Text>
+                            <Text style={tw`text-white text-[15px] font-semibold mt-1`}>{visibility}km</Text>
                         </View>
 
                     </View>
