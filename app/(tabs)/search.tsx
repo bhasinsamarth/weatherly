@@ -134,7 +134,7 @@ export default function App() {
                             contentContainerStyle={{ paddingHorizontal: 10 }}
                             showsHorizontalScrollIndicator={false}>
                                 {
-                                    weather?.forecast?.forecastday?.map()
+                                    
                                 }
                             <View style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}>
                                 <View style={tw`flex justify-center items-center rounded-3xl p-3 mx-2 gap-2`}>
