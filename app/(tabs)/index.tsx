@@ -74,6 +74,7 @@ const Home = () => {
                 <SafeAreaView>
                     <View style={tw`flex flex-row items-center`}>
                         <View>
+                            <Text style={tw`text-white mx-4 text-[30px] font-bold mt-10`}>Hi {username}!!</Text>
                             <Text style={tw`text-white mx-4 text-[30px] font-bold mt-10`}>{weather.cityName}</Text>
                             <Text style={tw`text-white mx-4 text-[30px] `}>{weather.temp}</Text>
                             <Text style={tw`text-white mx-4 mt-2 text-[18px] font-bold`}>{weather.description}</Text>
