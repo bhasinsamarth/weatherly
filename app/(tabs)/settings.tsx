@@ -64,7 +64,7 @@ export default function SettingsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 24, fontWeight: 'bold', marginVertical: 20 },
+  title: { fontSize: 34, fontWeight: 'bold', marginVertical: 20, marginTop: 30 },
   section: {
     flexDirection: 'row',
     justifyContent: 'space-between',
