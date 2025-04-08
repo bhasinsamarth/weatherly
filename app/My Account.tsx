@@ -1,6 +1,15 @@
-import { SafeAreaView, Text, TextInput, Button, StyleSheet, Alert, View } from 'react-native';
-import React, { useState } from 'react';
-import { usename } from './mediator';
+import {
+  SafeAreaView,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  View,
+} from "react-native";
+import React from "react";
+import { useState } from "react";
+import { usename } from "./mediator";
 
 const MyAccount = () => {
   const { username, setUsername } = usename();
@@ -8,7 +17,7 @@ const MyAccount = () => {
 
   const handleSave = () => {
     setUsername(newUsername);
-    Alert.alert('Success', 'Username has been updated!');
+    Alert.alert("Success", "Username has been updated!");
   };
 
   return (
@@ -42,48 +51,48 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: '#f4f6f8',
+    backgroundColor: "#f4f6f8",
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    color: '#333',
+    color: "#333",
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 20,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
   },
   label: {
     fontSize: 16,
-    color: '#555',
+    color: "#555",
     marginTop: 10,
   },
   username: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#222',
+    fontWeight: "600",
+    color: "#222",
     marginBottom: 15,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderRadius: 10,
     padding: 12,
     fontSize: 16,
     marginVertical: 10,
-    backgroundColor: '#f9f9f9',
-    color: '#000',
+    backgroundColor: "#f9f9f9",
+    color: "#000",
   },
   buttonContainer: {
     marginTop: 15,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 });
