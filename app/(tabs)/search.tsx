@@ -34,7 +34,14 @@ export default function App() {
     const [Humidity, setHumidity] = useState("");
     const [windSpeed, setWindSpeed] = useState("")
     const [visibility, setVisibility] = useState("")
-    const [forecastData, setForecastData] = useState([{}])
+
+    interface ForecastDay {
+        date: string;
+        day: {
+            avgtemp_c: string
+        };
+    }
+    const [forecast, setForecast] = useState<ForecastDay[]>([]);
     // sample data got from the api call. have to assign the variables names according to this
     // {"current": {"cloud": 0, "condition": {"code": 1000, "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png", "text": "Clear"}, "dewpoint_c": 2.3, "dewpoint_f": 36.1, "feelslike_c": 1.3, "feelslike_f": 34.3, "gust_kph": 11.6, "gust_mph": 7.2, "heatindex_c": 4.9, "heatindex_f": 40.8, "humidity": 87, "is_day": 0, "last_updated": "2025-04-08 04:00", "last_updated_epoch": 1744081200, "precip_in": 0, "precip_mm": 0, "pressure_in": 30.33, "pressure_mb": 1027, "temp_c": 3.1, "temp_f": 37.6, "uv": 0, "vis_km": 10, "vis_miles": 6, "wind_degree": 43, "wind_dir": "NE", "wind_kph": 6.8, "wind_mph": 4.3, "windchill_c": 3.3, "windchill_f": 38}, "forecast": {"forecastday": [[Object], [Object], [Object], [Object], [Object], [Object], [Object]]}, "location": {"country": "United Kingdom", "lat": 51.5171, "localtime": "2025-04-08 04:02", "localtime_epoch": 1744081336, "lon": -0.1062, "name": "London", "region": "City of London, Greater London", "tz_id": "Europe/London"}}  
 
@@ -51,7 +58,7 @@ export default function App() {
             setHumidity(data.current.humidity)
             setWindSpeed(data.current.wind_kph)
             setVisibility(data.current.vis_km)
-            setForecastData(data.forecast.forecastday)
+            setForecast(data.forecast.forecastday.slice(1));
         });
     }
     const HandleSearch = () => {
@@ -129,20 +136,22 @@ export default function App() {
                             <Ionicons name="calendar" size={24} color="#fff" style={tw`mx-4 mt-5`} />
                             <Text style={tw`text-white mt-5 text-[18px]`}>Daily forecast</Text>
                         </View>
+                        {/* */}
                         <ScrollView
                             horizontal
                             contentContainerStyle={{ paddingHorizontal: 10 }}
                             showsHorizontalScrollIndicator={false}>
-                                {
-                                    
-                                }
-                            <View style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}>
-                                <View style={tw`flex justify-center items-center rounded-3xl p-3 mx-2 gap-2`}>
-                                    <Ionicons name="sunny" size={24} color="#fff" />
-                                    <Text style={tw`text-white text-[15px] font-semibold`}>Monday</Text>
-                                    <Text style={tw`text-white text-[15px] font-normal`}>7&#176;</Text>
-                                </View>
-                            </View>
+                            {
+                                forecast.map((day, index) => (
+                                    <View style={{ backgroundColor: 'black', opacity: 0.5, borderRadius: 20, padding: 10, marginLeft: 10 }}>
+                                        <View style={tw`flex justify-center items-center rounded-3xl p-3 mx-2 gap-2`}>
+                                            <Image source={weatherImages[weatherCondition as keyof typeof weatherImages]} style={tw`w-16 h-16`}/>
+                                            <Text style={tw`text-white text-[15px] font-semibold`}>{day.date}</Text>
+                                            <Text style={tw`text-white text-[15px] font-normal`}>{day.day.avgtemp_c}&#176;</Text>
+                                        </View>
+                                    </View>
+                                ))
+                            }
 
                         </ScrollView>
 
@@ -242,4 +251,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#374151",
     },
+
 });
