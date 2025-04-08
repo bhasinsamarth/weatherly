@@ -8,6 +8,7 @@ export const weatherImages = {
     'Cloudy': require('../assets/images/cloud.png'),
     'Mist' : require('../assets/images/mist.png'),
     'Light rain': require('../assets/images/moderaterain.png'),
+    'Light snow' : require('../assets/images/heavyrain.png'),
     'Moderate rain at times': require('../assets/images/heavyrain.png'),
     'Heavy rain': require('../assets/images/heavyrain.png'),
     'Heavy rain at times': require('../assets/images/heavyrain.png'),
